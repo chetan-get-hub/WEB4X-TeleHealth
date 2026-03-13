@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TeleHealth - Premium Telehealth</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Splash Screen -->
+    <div id="splashScreen" class="splash-screen">
+        <div class="splash-content">
+            <div class="splash-logo">
+                <svg viewBox="0 0 24 24" width="80" height="80" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M22 12h-4l-3 9L9 3l-3 9H2"></path>
+                </svg>
+            </div>
+            <h1 class="splash-title">TeleHealth</h1>
+        </div>
+    </div>
+
+    <!-- Abstract Background Elements -->
+    <div class="background-shape shape-1"></div>
+    <div class="background-shape shape-2"></div>
+    <div class="background-shape shape-3"></div>
+
+    <div class="app-container">
+        <!-- Glassmorphism Card -->
+        <div class="auth-card" id="authCard">
+            <!-- Header Section -->
+            <div class="auth-header">
+                <div class="logo">
+                    <svg viewBox="0 0 24 24" width="32" height="32" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M22 12h-4l-3 9L9 3l-3 9H2"></path>
+                    </svg>
+                    <span>TeleHealth</span>
+                </div>
+            </div>
+
+            <!-- Toggle Switch -->
+            <div class="toggle-container">
+                <div class="toggle-slider" id="toggleSlider"></div>
+                <button class="toggle-btn active" id="btnSignIn" onclick="toggleForm('signin')">Sign In</button>
+                <button class="toggle-btn" id="btnSignUp" onclick="toggleForm('signup')">Register</button>
+            </div>
+
+            <!-- Forms Wrapper (for animation) -->
+            <div class="forms-wrapper" id="formsWrapper">
+                
+                <!-- Sign In Form -->
+                <form class="auth-form" id="signInForm" onsubmit="event.preventDefault();">
+                    <div class="text-center mb-6">
+                        <h2>Welcome</h2>
+                        <p class="subtitle">Enter your details to access your health portal.</p>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="signin-contact">Email or Mobile Number</label>
+                        <input type="text" id="signin-contact" placeholder="name@example.com or +1234567890" required>
+                    </div>
+
+                    <div class="input-group">
+                        <div class="label-row">
+                            <label for="signin-password">Password</label>
+                            <a href="#" class="forgot-link">Forgot password?</a>
+                        </div>
+                        <input type="password" id="signin-password" placeholder="••••••••" required>
+                    </div>
+
+                    <button type="submit" class="primary-button">
+                        Sign In
+                        <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none" class="btn-icon">
+                            <line x1="5" y1="12" x2="19" y2="12"></line>
+                            <polyline points="12 5 19 12 12 19"></polyline>
+                        </svg>
+                    </button>
+
+                </form>
+
+                <!-- Sign Up Form -->
+                <form class="auth-form" id="signUpForm" onsubmit="event.preventDefault();">
+                    <div class="text-center mb-6">
+                        <h2>Create an account</h2>
+                        <p class="subtitle">Join TeleHealth for premium medical care.</p>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="input-group">
+                            <label for="signup-fname">First Name</label>
+                            <input type="text" id="signup-fname" placeholder="First Name" required>
+                        </div>
+                        <div class="input-group">
+                            <label for="signup-lname">Last Name</label>
+                            <input type="text" id="signup-lname" placeholder="Last Name" required>
+                        </div>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="signup-contact">Email or Mobile Number</label>
+                        <input type="text" id="signup-contact" placeholder="name@example.com or +1234567890" required>
+                    </div>
+                    
+                    <div class="input-group">
+                        <label>I am a...</label>
+                        <div class="role-selector">
+                            <label class="role-card">
+                                <input type="radio" name="role" value="patient" checked>
+                                <span class="role-content">
+                                    <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none">
+                                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                                        <circle cx="12" cy="7" r="4"></circle>
+                                    </svg>
+                                    Patient
+                                </span>
+                            </label>
+                            <label class="role-card">
+                                <input type="radio" name="role" value="doctor">
+                                <span class="role-content">
+                                    <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none">
+                                        <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"></path>
+                                        <circle cx="12" cy="10" r="3"></circle>
+                                    </svg>
+                                    Doctor
+                                </span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="signup-password">Password</label>
+                        <input type="password" id="signup-password" placeholder="Create a strong password" required>
+                        <div class="password-strength">
+                            <div class="strength-bar" id="strengthBar"></div>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="primary-button mt-4">
+                        Create Account
+                        <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none" class="btn-icon">
+                            <line x1="5" y1="12" x2="19" y2="12"></line>
+                            <polyline points="12 5 19 12 12 19"></polyline>
+                        </svg>
+                    </button>
+                    <p class="terms-text mt-4">By registering, you agree to our <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>.</p>
+                </form>
+
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

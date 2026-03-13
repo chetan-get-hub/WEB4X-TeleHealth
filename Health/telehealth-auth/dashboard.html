@@ -1,0 +1,925 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TeleHealth - Dashboard</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="dashboard-root">
+    
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar">
+        <div class="sidebar-logo">
+            <svg viewBox="0 0 24 24" width="28" height="28" stroke="currentColor" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round" style="color: var(--apple-blue);">
+                <path d="M22 12h-4l-3 9L9 3l-3 9H2"></path>
+            </svg>
+            <span>TeleHealth</span>
+        </div>
+
+        <ul class="nav-links">
+            <li class="nav-item">
+                <div class="nav-link active" onclick="switchTab('home')">
+                    <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none">
+                        <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                        <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                    </svg>
+                    <span class="nav-text">Home</span>
+                </div>
+            </li>
+            <li class="nav-item">
+                <div class="nav-link" onclick="showTab('pharmacy')">
+                    <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path></svg>
+                    <span class="nav-text">E-Pharmacy</span>
+                </div>
+            </li>
+            <li class="nav-item">
+                <div class="nav-link" onclick="showTab('consult')">
+                    <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none">
+                        <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
+                        <circle cx="9" cy="7" r="4"></circle>
+                        <path d="M19 8v6M22 11h-6"></path>
+                    </svg>
+                    <span class="nav-text">Consult</span>
+                </div>
+            </li>
+            <li class="nav-item">
+                <div class="nav-link" onclick="showTab('records')">
+                    <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none">
+                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                        <polyline points="14 2 14 8 20 8"></polyline>
+                        <line x1="16" y1="13" x2="8" y2="13"></line>
+                        <line x1="16" y1="17" x2="8" y2="17"></line>
+                        <polyline points="10 9 9 9 8 9"></polyline>
+                    </svg>
+                    <span class="nav-text">Records</span>
+                </div>
+            </li>
+            <li class="nav-item">
+                <div class="nav-link" onclick="showTab('schemes')">
+                    <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none">
+                        <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"></path>
+                    </svg>
+                    <span class="nav-text">Schemes</span>
+                </div>
+            </li>
+            <li class="nav-item">
+                <div class="nav-link" onclick="openModal('ivrModal')">
+                    <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none">
+                        <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+                    </svg>
+                    <span class="nav-text">Contact</span>
+                </div>
+            </li>
+        </ul>
+
+        <div class="sidebar-footer">
+            <div class="nav-link" style="color: var(--apple-red);" onclick="logout()">
+                <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none">
+                    <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                    <polyline points="16 17 21 12 16 7"></polyline>
+                    <line x1="21" y1="12" x2="9" y2="12"></line>
+                </svg>
+                <span class="nav-text">Sign Out</span>
+            </div>
+        </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="main-content">
+        <!-- Background Abstract Shapes (Local to Main Content) -->
+        <div class="background-shape shape-1" style="opacity: 0.3;"></div>
+        <div class="background-shape shape-2" style="opacity: 0.3;"></div>
+
+        <div id="contentRouter">
+            <!-- Home Section (Default) -->
+            <div id="homeSection" class="router-section view-standard">
+                <div class="header-row">
+                    <div class="welcome-section">
+                        <h1 id="welcomeUser">Welcome, User.</h1>
+                        <p id="dashboardSubtitle">How can we help you stay healthy today?</p>
+                    </div>
+                    <div class="user-badge">
+                        <div class="user-avatar" id="avatarInitial">U</div>
+                        <span id="userNameBadge">User</span>
+                    </div>
+                </div>
+
+                <!-- Emergency Dispatch Widget -->
+                <div class="emergency-widget">
+                    <div class="emergency-info">
+                        <h2>Emergency Assistance</h2>
+                        <p>Immediate dispatch for ambulance and emergency medical care.</p>
+                    </div>
+                    <button class="emergency-btn" onclick="triggerSOS()">Dispatch Now</button>
+                </div>
+
+                <!-- Feature Launcher Grid -->
+                <div class="launcher-grid" id="standardGrid">
+                    <!-- Cards will be injected by JS or hardcoded for speed -->
+                    <div class="app-card" onclick="activeFeature('chat')">
+                        <div class="app-icon-wrapper" style="background: var(--apple-blue);">
+                            <svg viewBox="0 0 24 24" width="32" height="32" stroke="currentColor" stroke-width="2.5" fill="none"><path d="M12 8V4H8"></path><rect width="16" height="12" x="4" y="8" rx="2"></rect><path d="M2 14h2M20 14h2M15 13v2M9 13v2"></path></svg>
+                        </div>
+                        <div class="app-info">
+                            <h3>Symptom Checker</h3>
+                            <p>AI-powered assistant to analyze your symptoms.</p>
+                        </div>
+                    </div>
+                    <div class="app-card" onclick="activeFeature('doctor')">
+                        <div class="app-icon-wrapper" style="background: var(--apple-green);">
+                            <svg viewBox="0 0 24 24" width="32" height="32" stroke="currentColor" stroke-width="2.5" fill="none"><rect width="18" height="18" x="3" y="4" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+                        </div>
+                        <div class="app-info">
+                            <h3>Consult Doctor</h3>
+                            <p>Schedule a video call with a specialist.</p>
+                        </div>
+                    </div>
+                    <div class="app-card" onclick="activeFeature('pharmacy')">
+                        <div class="app-icon-wrapper" style="background: var(--apple-orange);">
+                            <svg viewBox="0 0 24 24" width="32" height="32" stroke="currentColor" stroke-width="2.5" fill="none"><path d="m10.5 20.5 10-10a4.95 4.95 0 1 0-7-7l-10 10a4.95 4.95 0 1 0 7 7Z"></path><path d="m8.5 8.5 7 7"></path></svg>
+                        </div>
+                        <div class="app-info">
+                            <h3>E-Pharmacy</h3>
+                            <p>Order prescriptions and health supplements.</p>
+                        </div>
+                    </div>
+                    <div class="app-card" onclick="activeFeature('schemes')">
+                        <div class="app-icon-wrapper" style="background: #af52de;">
+                            <svg viewBox="0 0 24 24" width="32" height="32" stroke="currentColor" stroke-width="2.5" fill="none"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"></path></svg>
+                        </div>
+                        <div class="app-info">
+                            <h3>Govt. Schemes</h3>
+                            <p>View medical insurance and worker benefits.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Simple Mode Grid (Hidden by default) -->
+                <div class="simple-mode-container" id="simpleGrid" style="display: none;">
+                    <div class="simple-grid">
+                        <div class="simple-app-card" style="background: var(--apple-blue);" onclick="activeFeature('voice')">
+                            <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"></path><path d="M19 10v1a7 7 0 0 1-14 0v-1"></path><line x1="12" y1="19" x2="12" y2="22"></line></svg>
+                            <span>TALK TO AI</span>
+                        </div>
+                        <div class="simple-app-card" style="background: var(--apple-green);" onclick="activeFeature('doctor')">
+                            <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><line x1="19" y1="8" x2="19" y2="14"></line><line x1="22" y1="11" x2="16" y2="11"></line></svg>
+                            <span>SEE DOCTOR</span>
+                        </div>
+                        <div class="simple-app-card" style="background: var(--apple-red);" onclick="triggerSOS()">
+                            <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A5 5 0 0 0 8 8c0 1.3.5 2.6 1.5 3.5.8.8 1.3 1.5 1.5 2.5"></path><path d="M9 18h6"></path><path d="M10 22h4"></path></svg>
+                            <span>EMERGENCY</span>
+                        </div>
+                        <div class="simple-app-card" style="background: var(--apple-orange);" onclick="activeFeature('pharmacy')">
+                            <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none"><path d="m10.5 20.5 10-10a4.95 4.95 0 1 0-7-7l-10 10a4.95 4.95 0 1 0 7 7Z"></path><path d="m8.5 8.5 7 7"></path></svg>
+                            <span>MEDICINES</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Consult Section -->
+            <div id="consultSection" class="router-section" style="display: none;">
+                <div class="section-header">
+                    <h2 id="consultTitle">Consultations</h2>
+                    <button class="primary-button" style="width: auto; padding: 8px 16px; font-size: 14px;" id="consultActionBtn">New Booking</button>
+                </div>
+                
+                <div id="consultContent">
+                    <!-- Dynamic Content -->
+                    <div class="appointment-card">
+                        <div class="time-slot">09:00 AM</div>
+                        <div class="data-main">
+                            <div class="data-title" id="consultSub1">General Checkup</div>
+                            <div class="data-sub" id="consultSub2">Dr. Smith - Main Hospital</div>
+                        </div>
+                        <span class="badge badge-info">Confirmed</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Records Section -->
+            <div id="recordsSection" class="router-section" style="display: none;">
+                <div class="section-header">
+                    <h2 id="recordsTitle">Medical Records</h2>
+                    <input type="file" id="recordUpload" style="display: none;" onchange="uploadRecord(this)">
+                    <button class="primary-button" style="width: auto; padding: 8px 16px; font-size: 14px;" id="uploadBtn" onclick="document.getElementById('recordUpload').click()">Upload Document</button>
+                </div>
+                
+                <div class="data-list" id="recordsList">
+                    <!-- Dynamic Records -->
+                    <div style="text-align: center; padding: 40px; color: var(--sys-text-secondary);">
+                        Loading records...
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- E-Pharmacy Section -->
+            <div id="pharmacySection" class="router-section" style="display: none;">
+                <div class="section-header">
+                    <h2>E-Pharmacy & AI Analysis</h2>
+                    <input type="file" id="prescriptionUpload" style="display: none;" onchange="analyzePrescription(this)">
+                    <button class="primary-button" style="width: auto; padding: 8px 16px; font-size: 14px;" onclick="document.getElementById('prescriptionUpload').click()">Upload Prescription</button>
+                </div>
+
+                <div class="standard-grid" style="grid-template-columns: 1fr 1fr; gap: 20px;">
+                    <!-- Analysis Result -->
+                    <div class="card glass-card">
+                        <h3>AI Prescription Analysis</h3>
+                        <div id="analysisResult" style="margin-top: 15px;">
+                            <p style="color: var(--sys-text-secondary);">Upload a prescription to see AI analysis here.</p>
+                        </div>
+                        <button class="primary-button" id="askAiBtn" style="margin-top: 20px; display: none;" onclick="openPharmacyChat()">Ask AI about Medicines</button>
+                    </div>
+
+                    <!-- Nearby Pharmacies -->
+                    <div class="card">
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <h3>Nearby Pharmacies</h3>
+                            <span id="locationBadge" style="font-size: 10px; padding: 4px 8px; border-radius: 12px; background: rgba(52, 199, 89, 0.1); color: var(--apple-green);">Live Location Off</span>
+                        </div>
+                        <div class="data-list" id="pharmacyList" style="margin-top: 15px;">
+                            <div style="text-align: center; padding: 20px; color: var(--sys-text-secondary);">
+                                Enable location to find pharmacies.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Schemes Section -->
+            <div id="schemesSection" class="router-section" style="display: none;">
+                <div class="section-header">
+                    <h2>Govt. Health Schemes</h2>
+                    <span class="badge badge-info shadow-none" style="background: rgba(0, 122, 255, 0.1); color: var(--apple-blue); font-size: 11px; display: flex; align-items: center; gap: 5px;">
+                         Powered by OpenAI
+                    </span>
+                </div>
+                
+                <div id="schemesGrid" class="data-list" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px;">
+                    <!-- AI Schemes will be injected here -->
+                    <div style="grid-column: 1/-1; text-align: center; padding: 40px;">
+                        <div class="loading-spinner"></div>
+                        <p style="color: var(--sys-text-secondary); margin-top: 15px;">Fetching latest schemes from AI...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- AI Symptom Checker Modal -->
+    <div id="aiModal" class="modal-overlay">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none" style="color: var(--apple-blue);">
+                        <path d="M12 8V4H8"></path><rect width="16" height="12" x="4" y="8" rx="2"></rect><path d="M2 14h2M20 14h2M15 13v2M9 13v2"></path>
+                    </svg>
+                    <h3 style="font-weight: 700;">AI Symptom Checker</h3>
+                </div>
+                <button onclick="closeModal('aiModal')" style="background: none; border: none; font-size: 24px; cursor: pointer;">&times;</button>
+            </div>
+            <div class="chat-messages" id="chatMessages">
+                <div class="message ai">Hello! I'm your TeleHealth AI assistant. How are you feeling today? Please describe your symptoms.</div>
+            </div>
+            <div class="chat-input-area">
+                <input type="text" id="chatInput" class="chat-input" placeholder="Type your symptoms here..." onkeypress="handleChatKey(event)">
+                <button class="send-btn" onclick="sendMessage()">
+                    <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2.5" fill="none"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Alert Modal (for SOS/Emergency) -->
+    <div id="sosModal" class="modal-overlay">
+        <div class="modal-content" style="height: auto; max-width: 450px; text-align: center; padding: 40px;">
+            <div style="color: var(--apple-red); margin-bottom: 20px;">
+                <svg viewBox="0 0 24 24" width="80" height="80" stroke="currentColor" stroke-width="2" fill="none"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+            </div>
+            <h2 style="font-size: 28px; font-weight: 700; color: var(--apple-red);">SOS Triggered</h2>
+            <p style="margin: 20px 0; font-size: 16px; color: var(--sys-text-secondary);">An emergency dispatch request has been sent to the nearest hospital. A medical team is being routed to your location.</p>
+            <div style="background: #fff3f2; border: 1px solid #ffccca; padding: 15px; border-radius: var(--radius-md); margin-bottom: 30px;">
+                <p style="font-weight: 700; color: var(--apple-red);">Estimated Response: 8-12 mins</p>
+            </div>
+            <button class="primary-button" onclick="closeModal('sosModal')">Understood</button>
+        </div>
+    </div>
+
+    <!-- IVR Simulated Dialer Modal -->
+    <div class="modal-overlay" id="ivrModal">
+        <div class="modal-content ivr-modal-content">
+            <div class="ivr-header">
+                <h2>TeleHealth Support</h2>
+                <p id="ivrStatus" class="connected">0:00</p>
+            </div>
+            
+            <div class="ivr-display" id="ivrDisplay">
+                Language Selection
+            </div>
+
+            <!-- Authentic In-Call Controls Row -->
+            <div class="ivr-incall-controls">
+                <div class="control-item">
+                    <button class="control-btn" onclick="toggleIvrControl(this, 'mute')">
+                        <svg viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" stroke-width="2" fill="none"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path><path d="M19 10v1a7 7 0 0 1-14 0v-1"></path><line x1="12" y1="19" x2="12" y2="23"></line><line x1="8" y1="23" x2="16" y2="23"></line></svg>
+                    </button>
+                    <span class="control-label">mute</span>
+                </div>
+                <div class="control-item">
+                    <button class="control-btn active" onclick="toggleIvrControl(this, 'keypad')">
+                        <svg viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" stroke-width="2" fill="none"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+                    </button>
+                    <span class="control-label">keypad</span>
+                </div>
+                <div class="control-item">
+                    <button class="control-btn" onclick="toggleIvrControl(this, 'speaker')">
+                        <svg viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" stroke-width="2" fill="none"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path></svg>
+                    </button>
+                    <span class="control-label">speaker</span>
+                </div>
+                <div class="control-item">
+                    <button class="control-btn" onclick="toggleIvrControl(this, 'add')">
+                        <svg viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" stroke-width="2" fill="none"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                    </button>
+                    <span class="control-label">add call</span>
+                </div>
+                <div class="control-item">
+                    <button class="control-btn" onclick="toggleIvrControl(this, 'video')">
+                        <svg viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" stroke-width="2" fill="none"><polygon points="23 7 16 12 23 17 23 7"></polygon><rect x="1" y="5" width="15" height="14" rx="2" ry="2"></rect></svg>
+                    </button>
+                    <span class="control-label">FaceTime</span>
+                </div>
+                <div class="control-item">
+                    <button class="control-btn" onclick="toggleIvrControl(this, 'contacts')">
+                        <svg viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" stroke-width="2" fill="none"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                    </button>
+                    <span class="control-label">contacts</span>
+                </div>
+            </div>
+
+            <div class="dialpad" id="ivrDialpad">
+                <button class="dial-btn" onclick="ivrPress('1')">1<span class="letters"> </span></button>
+                <button class="dial-btn" onclick="ivrPress('2')">2<span class="letters">ABC</span></button>
+                <button class="dial-btn" onclick="ivrPress('3')">3<span class="letters">DEF</span></button>
+                <button class="dial-btn" onclick="ivrPress('4')">4<span class="letters">GHI</span></button>
+                <button class="dial-btn" onclick="ivrPress('5')">5<span class="letters">JKL</span></button>
+                <button class="dial-btn" onclick="ivrPress('6')">6<span class="letters">MNO</span></button>
+                <button class="dial-btn" onclick="ivrPress('7')">7<span class="letters">PQRS</span></button>
+                <button class="dial-btn" onclick="ivrPress('8')">8<span class="letters">TUV</span></button>
+                <button class="dial-btn" onclick="ivrPress('9')">9<span class="letters">WXYZ</span></button>
+                <button class="dial-btn" onclick="ivrPress('*')">*</button>
+                <button class="dial-btn" onclick="ivrPress('0')">0<span class="letters">+</span></button>
+                <button class="dial-btn" onclick="ivrPress('#')">#</button>
+            </div>
+
+            <div class="ivr-bottom-controls">
+                <button class="end-call-btn" onclick="endIvrCall()">
+                    <svg viewBox="0 0 24 24" width="32" height="32" fill="white">
+                        <path d="M6.62 10.79a15.05 15.05 0 006.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z" transform="rotate(135 12 12)"/>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    </main>
+
+    <script src="script.js"></script>
+    <script>
+        let currentMode = 'standard';
+        let userRole = 'patient';
+        let userId = 1;
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const name = urlParams.get('name') || 'User';
+            userRole = urlParams.get('role') || 'patient';
+            userId = urlParams.get('userId') || 1;
+            
+            document.getElementById('welcomeUser').textContent = `Welcome, ${name}.`;
+            document.getElementById('userNameBadge').textContent = name;
+            document.getElementById('avatarInitial').textContent = name.charAt(0).toUpperCase();
+
+            // Setup Role-Based UI
+            setupRoleUI();
+
+            // Subtle intro animation
+            const container = document.querySelector('.main-content');
+            container.style.opacity = '0';
+            container.style.transform = 'translateY(10px)';
+            container.style.transition = 'all 0.5s ease-out';
+            
+            setTimeout(() => {
+                container.style.opacity = '1';
+                container.style.transform = 'translateY(0)';
+            }, 100);
+        });
+
+        function setupRoleUI() {
+            const consultTitle = document.getElementById('consultTitle');
+            const consultActionBtn = document.getElementById('consultActionBtn');
+            const consultContent = document.getElementById('consultContent');
+            const recordsList = document.getElementById('recordsList');
+
+            if (userRole === 'doctor') {
+                consultTitle.textContent = "My Appointments";
+                consultActionBtn.textContent = "Manage Availability";
+                consultContent.innerHTML = `
+                    <div class="appointment-card">
+                        <div class="time-slot">10:30 AM</div>
+                        <div class="data-main">
+                            <div class="data-title">Rahul Sharma</div>
+                            <div class="data-sub">Consultation • Patient ID: #8822</div>
+                        </div>
+                        <button class="primary-button" style="width: auto; padding: 6px 12px; font-size: 12px; background: var(--apple-green);">Start Call</button>
+                    </div>
+                `;
+                recordsList.innerHTML = `
+                    <div style="text-align: center; padding: 40px; color: var(--sys-text-secondary);">
+                        Click to view patient history
+                    </div>
+                `;
+                document.getElementById('uploadBtn').style.display = 'none';
+                document.getElementById('recordsTitle').textContent = "Patient Health Records";
+            } else {
+                // Patient defaults stay or get reinforced
+                consultTitle.textContent = "Book Consultation";
+                consultActionBtn.textContent = "Find Doctors";
+                document.getElementById('uploadBtn').style.display = 'block';
+                document.getElementById('recordsTitle').textContent = "Medical Records";
+            }
+        }
+
+        function showTab(tabId) {
+            document.querySelectorAll('.nav-link').forEach(link => link.classList.remove('active'));
+            const activeLink = document.querySelector(`[onclick="showTab('${tabId}')"]`);
+            if (activeLink) activeLink.classList.add('active');
+
+            const sections = ['homeSection', 'consultSection', 'recordsSection', 'schemesSection', 'pharmacySection'];
+            sections.forEach(id => {
+                const el = document.getElementById(id);
+                if (el) el.style.display = (id === tabId + 'Section') ? 'block' : 'none';
+            });
+
+            if (tabId === 'records') {
+                loadRecords();
+            }
+            
+            if (tabId === 'pharmacy') {
+                initPharmacy();
+            }
+
+            if (tabId === 'schemes') {
+                loadSchemes();
+            }
+        }
+
+        async function loadSchemes() {
+            const grid = document.getElementById('schemesGrid');
+            try {
+                const response = await fetch('/api/schemes', { method: 'GET' });
+                const data = await response.json();
+                
+                if (data.schemes) {
+                    grid.innerHTML = data.schemes.map(s => `
+                        <div class="app-card" style="padding: 24px; height: auto; flex-direction: column; align-items: flex-start; gap: 12px;">
+                            <div class="badge badge-info shadow-none" style="margin-bottom: 5px;">Health Policy</div>
+                            <h3 style="font-size: 18px; margin: 0;">${s.name}</h3>
+                            <p style="font-size: 14px; margin: 0; opacity: 0.8; line-height: 1.5;">${s.desc}</p>
+                            <button class="primary-button" style="width: auto; padding: 10px 15px; font-size: 13px; margin-top: 5px;" onclick="alert('Proceeding to ${s.name} portal...')">Apply Now</button>
+                        </div>
+                    `).join('');
+                }
+            } catch (err) {
+                grid.innerHTML = `<p style="color: var(--apple-red); padding: 20px;">Failed to load schemes. Please try again later.</p>`;
+            }
+        }
+
+        async function loadRecords() {
+            const list = document.getElementById('recordsList');
+            try {
+                const response = await fetch('/api/get-records', {
+                    method: 'POST',
+                    body: JSON.stringify({ userId, role: userRole })
+                });
+                const data = await response.json();
+                
+                if (data.records && data.records.length > 0) {
+                    list.innerHTML = data.records.map(r => `
+                        <div class="data-row" onclick="window.open('${r.file_path}', '_blank')">
+                            <div style="margin-right: 15px; color: var(--apple-blue);">
+                                <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none">
+                                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                                    <polyline points="14 2 14 8 20 8"></polyline>
+                                </svg>
+                            </div>
+                            <div class="data-main">
+                                <div class="data-title">${r.file_name}</div>
+                                <div class="data-sub">${userRole === 'doctor' ? 'Patient: ' + r.patient_name : 'Uploaded on ' + new Date(r.upload_date).toLocaleDateString()}</div>
+                            </div>
+                            <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none" style="color: var(--sys-text-secondary);">
+                                <polyline points="9 18 15 12 9 6"></polyline>
+                            </svg>
+                        </div>
+                    `).join('');
+                } else {
+                    list.innerHTML = `<div style="text-align: center; padding: 40px; color: var(--sys-text-secondary);">No medical records found.</div>`;
+                }
+            } catch (err) {
+                list.innerHTML = `<p style="color: var(--apple-red); padding: 20px;">Error loading records.</p>`;
+            }
+        }
+
+        async function uploadRecord(input) {
+            if (!input.files || input.files.length === 0) return;
+            const file = input.files[0];
+            
+            const uploadBtn = document.getElementById('uploadBtn');
+            const originalText = uploadBtn.textContent;
+            uploadBtn.textContent = "Uploading...";
+            uploadBtn.disabled = true;
+
+            try {
+                const response = await fetch('/api/upload-record', {
+                    method: 'POST',
+                    body: file
+                });
+                
+                if (response.ok) {
+                    alert('Document uploaded successfully!');
+                    loadRecords();
+                } else {
+                    alert('Upload failed.');
+                }
+            } catch (err) {
+                alert('Connection error during upload.');
+            } finally {
+                uploadBtn.textContent = originalText;
+                uploadBtn.disabled = false;
+                input.value = '';
+            }
+        }
+
+        async function initPharmacy() {
+            if ("geolocation" in navigator) {
+                navigator.geolocation.getCurrentPosition(async (position) => {
+                    const { latitude, longitude } = position.coords;
+                    document.getElementById('locationBadge').textContent = "Live Location On";
+                    loadNearbyPharmacies(latitude, longitude);
+                }, (err) => {
+                    console.log("Location denied", err);
+                    loadNearbyPharmacies(18.5204, 73.8567); // Demo fallback (Pune)
+                });
+            }
+        }
+
+        async function loadNearbyPharmacies(lat, lng) {
+            const list = document.getElementById('pharmacyList');
+            try {
+                const response = await fetch('/api/nearby-pharmacies', {
+                    method: 'POST',
+                    body: JSON.stringify({ lat, lng })
+                });
+                const data = await response.json();
+                
+                list.innerHTML = data.pharmacies.map(p => `
+                    <div class="data-row">
+                        <div class="data-main">
+                            <div class="data-title">${p.name}</div>
+                            <div class="data-sub">${p.dist} • ${p.address}</div>
+                        </div>
+                        <div style="text-align: right;">
+                            <span class="badge ${p.stock === 'In Stock' ? 'badge-success' : 'badge-warning'}">${p.stock}</span>
+                            <div style="font-size: 10px; color: var(--apple-blue); margin-top: 4px;">Call Pharmacy</div>
+                        </div>
+                    </div>
+                `).join('');
+            } catch (err) {
+                list.innerHTML = `<p style="color: var(--apple-red);">Error loading pharmacies.</p>`;
+            }
+        }
+
+        async function analyzePrescription(input) {
+            const resultDiv = document.getElementById('analysisResult');
+            resultDiv.innerHTML = '<div class="loading-spinner"></div><p style="text-align:center">AI Analysis in progress...</p>';
+            
+            try {
+                const response = await fetch('/api/analyze-prescription', {
+                    method: 'POST',
+                    body: input.files[0]
+                });
+                const data = await response.json();
+                
+                resultDiv.innerHTML = `
+                    <div style="background: rgba(0,122,255,0.05); padding: 15px; border-radius: 12px; margin-bottom: 15px;">
+                        <div style="font-weight: 600; font-size: 14px; margin-bottom: 10px; color: var(--apple-blue);">Detected Medications:</div>
+                        ${data.medicines.map(m => `
+                            <div style="display: flex; justify-content: space-between; border-bottom: 1px solid rgba(0,0,0,0.05); padding: 8px 0;">
+                                <span style="font-weight: 500;">${m.name} (${m.dosage})</span>
+                                <span style="font-size: 12px; color: var(--sys-text-secondary);">${m.freq}</span>
+                            </div>
+                        `).join('')}
+                    </div>
+                    <p style="font-size: 12px; font-style: italic; color: var(--apple-green);">${data.note}</p>
+                `;
+                document.getElementById('askAiBtn').style.display = 'block';
+            } catch (err) {
+                resultDiv.innerHTML = `<p style="color: var(--apple-red);">AI Analysis failed.</p>`;
+            }
+        }
+
+        function openPharmacyChat() {
+            // Re-using the chat logic from AI section/modal but specialized for pharmacy
+            alert("Starting Pharmacy AI Assistant (ChatGPT Powered)...\n\nAnalyzing side effects and interactions for extracted medicines...");
+        }
+
+        function toggleMode() {
+            const standard = document.getElementById('standardGrid');
+            const simple = document.getElementById('simpleGrid');
+            const modeText = document.getElementById('modeText');
+            const modeToggler = document.getElementById('modeToggler');
+            const subtitle = document.getElementById('dashboardSubtitle');
+
+            if (currentMode === 'standard') {
+                currentMode = 'simple';
+                standard.style.display = 'none';
+                simple.style.display = 'grid';
+                modeText.textContent = 'Standard Mode';
+                subtitle.textContent = 'Tap a large button to start.';
+                modeToggler.style.background = 'var(--apple-blue)';
+            } else {
+                currentMode = 'standard';
+                standard.style.display = 'grid';
+                simple.style.display = 'none';
+                modeText.textContent = 'Simple Mode';
+                subtitle.textContent = 'How can we help you stay healthy today?';
+                modeToggler.style.background = 'var(--sys-text-primary)';
+            }
+        }
+
+        function activeFeature(feature) {
+            if (feature === 'chat') {
+                openModal('aiModal');
+            } else if (feature === 'voice') {
+                alert('Voice AI Service Initializing... \nPlease speak after the beep. (Simulated)');
+            } else if (feature === 'schemes') {
+                showTab('schemes');
+            } else if (feature === 'doctor') {
+                showTab('consult');
+            } else if (feature === 'pharmacy') {
+                showTab('pharmacy');
+            } else {
+                alert(`Launching ${feature.toUpperCase()}... \nThis module is being connected from the Master repository.`);
+            }
+        }
+
+        function triggerSOS() {
+            openModal('sosModal');
+        }
+
+        function openModal(id) {
+            const modal = document.getElementById(id);
+            modal.style.display = 'flex';
+            setTimeout(() => modal.classList.add('active'), 10);
+        }
+
+        function closeModal(id) {
+            const modal = document.getElementById(id);
+            modal.classList.remove('active');
+            setTimeout(() => modal.style.display = 'none', 300);
+        }
+
+        function logout() {
+            window.location.href = 'index.html';
+        }
+
+        // IVR Logic (Enhanced for Apple UI/UX)
+        let ivrActive = false;
+        let currentIvrState = 'language'; 
+        let ivrLang = 'en';
+        let ivrStartTime = 0;
+        let ivrTimerInterval = null;
+
+        const ivrPrompts = {
+            'language': "Welcome to TeleHealth Support Service. For better assistance, please select your preferred language. Press 1 for English. Press 2 for Hindi. Press 3 for Punjabi. Press 4 for Marathi.",
+            'main': "Main Menu. Please select from the following options. Press 1 to talk to a doctor. Press 2 to book an appointment. Press 3 to check appointment status. Press 4 for emergency medical help. Press 5 for health information and advice. Press 6 for telemedicine video consultation. Press 0 to speak to customer support.",
+            'doctor': "Talk to a Doctor. Press 1 for General Physician. Press 2 for Child Specialist. Press 3 for Women's Health Specialist. Press 4 for Mental Health Counseling. Press 9 to go back to main menu.",
+            'appointment': "Book Appointment. Press 1 for Today's Appointment. Press 2 to schedule for another day. Press 3 to cancel appointment. Press 9 to go back.",
+            'status': "Please enter your Appointment ID followed by the hash key.",
+            'emergency': "If this is a medical emergency, please stay on the line. Your call will be transferred to the nearest healthcare professional. Or Press 1 for Ambulance Request. Press 2 for Emergency Doctor Consultation.",
+            'health_info': "Health Information. Press 1 for Fever and Cold Advice. Press 2 for COVID-19 Information. Press 3 for Vaccination Information. Press 4 for Maternal and Child Health.",
+            'video': "Download our mobile app to start video consultation. An SMS link will be sent to your registered mobile number automatically.",
+            'support': "Please wait while we connect you to a TeleHealth support representative. Your estimated wait time is 2 minutes.",
+        };
+
+        // DTMF Sound Generator
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        function playDTMF(f1, f2) {
+            const osc1 = audioCtx.createOscillator();
+            const osc2 = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+
+            osc1.frequency.value = f1;
+            osc2.frequency.value = f2;
+            gain.gain.value = 0.1;
+
+            osc1.connect(gain);
+            osc2.connect(gain);
+            gain.connect(audioCtx.destination);
+
+            osc1.start();
+            osc2.start();
+            setTimeout(() => {
+                osc1.stop();
+                osc2.stop();
+            }, 100);
+        }
+
+        const dtmfFreqs = {
+            '1': [697, 1209], '2': [697, 1336], '3': [697, 1477],
+            '4': [770, 1209], '5': [770, 1336], '6': [770, 1477],
+            '7': [852, 1209], '8': [852, 1336], '9': [852, 1477],
+            '*': [941, 1209], '0': [941, 1336], '#': [941, 1477]
+        };
+
+        function speak(text) {
+            if (!("speechSynthesis" in window)) return;
+            window.speechSynthesis.cancel();
+            const msg = new SpeechSynthesisUtterance(text);
+            msg.rate = 0.95;
+            msg.pitch = 1;
+            window.speechSynthesis.speak(msg);
+        }
+
+        // Override openModal for IVR
+        const originalOpenModal = openModal;
+        openModal = function(id) {
+            originalOpenModal(id);
+            if (id === 'ivrModal') {
+                startIvr();
+            }
+        };
+
+        function startIvr() {
+            ivrActive = true;
+            currentIvrState = 'language';
+            ivrStartTime = Date.now();
+            updateIvrTimer();
+            ivrTimerInterval = setInterval(updateIvrTimer, 1000);
+            
+            document.getElementById('ivrDisplay').textContent = 'Language Selection';
+            speak(ivrPrompts['language']);
+        }
+
+        function updateIvrTimer() {
+            const elapsed = Math.floor((Date.now() - ivrStartTime) / 1000);
+            const mins = Math.floor(elapsed / 60);
+            const secs = elapsed % 60;
+            document.getElementById('ivrStatus').textContent = `${mins}:${secs.toString().padStart(2, '0')}`;
+        }
+
+        function endIvrCall() {
+            ivrActive = false;
+            clearInterval(ivrTimerInterval);
+            window.speechSynthesis.cancel();
+            closeModal('ivrModal');
+        }
+
+        function toggleIvrControl(btn, type) {
+            btn.classList.toggle('active');
+            if (type === 'speaker') {
+                // Visual feedback only for demo
+            }
+        }
+
+        function ivrPress(key) {
+            if (!ivrActive) return;
+            
+            // Play authentic DTMF tone
+            if (dtmfFreqs[key]) {
+                playDTMF(dtmfFreqs[key][0], dtmfFreqs[key][1]);
+            }
+
+            document.getElementById('ivrDisplay').textContent = key;
+            
+            // Repeat Menu logic
+            if (key === '#') {
+                speak(ivrPrompts[currentIvrState]);
+                return;
+            }
+
+            // Speak to Agent logic
+            if (key === '0') {
+                currentIvrState = 'support';
+                document.getElementById('ivrDisplay').textContent = "Connecting...";
+                speak(ivrPrompts['support']);
+                return;
+            }
+
+            // State Machine
+            switch (currentIvrState) {
+                case 'language':
+                    if (['1','2','3','4'].includes(key)) {
+                        currentIvrState = 'main';
+                        speak(ivrPrompts['main']);
+                    }
+                    break;
+                case 'main':
+                    if (key === '1') { currentIvrState = 'doctor'; speak(ivrPrompts['doctor']); }
+                    else if (key === '2') { currentIvrState = 'appointment'; speak(ivrPrompts['appointment']); }
+                    else if (key === '3') { currentIvrState = 'status'; speak(ivrPrompts['status']); }
+                    else if (key === '4') { currentIvrState = 'emergency'; speak(ivrPrompts['emergency']); }
+                    else if (key === '5') { currentIvrState = 'health_info'; speak(ivrPrompts['health_info']); }
+                    else if (key === '6') { currentIvrState = 'video'; speak(ivrPrompts['video']); }
+                    break;
+                case 'doctor':
+                case 'appointment':
+                case 'health_info':
+                    if (key === '9') {
+                        currentIvrState = 'main';
+                        speak(ivrPrompts['main']);
+                    } else {
+                        speak(`Connecting...`);
+                    }
+                    break;
+                case 'status':
+                    if (key === '#') {
+                        speak("Your appointment is confirmed for tomorrow at 10 AM.");
+                        currentIvrState = 'main';
+                    }
+                    break;
+                case 'emergency':
+                    if (key === '1') speak("Requesting ambulance.");
+                    else if (key === '2') speak("Connecting to doctor.");
+                    break;
+                default:
+                    if (key === '9') {
+                        currentIvrState = 'main';
+                        speak(ivrPrompts['main']);
+                    }
+            }
+            
+            setTimeout(() => {
+                if (ivrPrompts[currentIvrState]) {
+                    document.getElementById('ivrDisplay').textContent = currentIvrState.replace('_', ' ').toUpperCase();
+                }
+            }, 500);
+        }
+
+        // Chat Logic (Restored)
+        function handleChatKey(e) {
+            if (e.key === 'Enter') sendMessage();
+        }
+
+        async function sendMessage() {
+            const input = document.getElementById('chatInput');
+            const text = input.value.trim();
+            if (!text) return;
+
+            const chat = document.getElementById('chatMessages');
+            
+            // User Message
+            const userMsg = document.createElement('div');
+            userMsg.className = 'message user';
+            userMsg.textContent = text;
+            chat.appendChild(userMsg);
+            
+            input.value = '';
+            chat.scrollTop = chat.scrollHeight;
+
+            // Typing Indicator
+            const typingMsg = document.createElement('div');
+            typingMsg.className = 'message ai typing';
+            typingMsg.innerHTML = '<span class="dot">.</span><span class="dot">.</span><span class="dot">.</span>';
+            chat.appendChild(typingMsg);
+            chat.scrollTop = chat.scrollHeight;
+
+            try {
+                const response = await fetch('/api/ai-chat', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ message: text })
+                });
+                const data = await response.json();
+                
+                chat.removeChild(typingMsg);
+                
+                const aiMsg = document.createElement('div');
+                aiMsg.className = 'message ai';
+                aiMsg.textContent = data.reply;
+                chat.appendChild(aiMsg);
+                chat.scrollTop = chat.scrollHeight;
+            } catch (err) {
+                chat.removeChild(typingMsg);
+                const errorMsg = document.createElement('div');
+                errorMsg.className = 'message ai error';
+                errorMsg.textContent = "Connectivity issue. Please try again or consult a doctor directly.";
+                chat.appendChild(errorMsg);
+                chat.scrollTop = chat.scrollHeight;
+            }
+        }
+    </script>
+    </script>
+</body>
