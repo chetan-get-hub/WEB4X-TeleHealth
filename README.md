@@ -1,4 +1,4 @@
-<title>WEB4X-TeleHealth</title>
+<h1>WEB4X-TeleHealth</h1>
 
 The TeleHealth platform is built using a modern, high-performance stack that prioritizes a premium "Vanilla" experience—meaning no heavy frameworks like React or Tailwind were used. This ensures maximum speed, smooth animations, and zero dependencies on the frontend.
 
